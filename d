@@ -1,27 +1,84 @@
-local library = loadstring(game:HttpGet('https://raw.githubusercontent.com/bypassers/ui/refs/heads/main/ui'))() 
-local main = library:CreateWindow("MoonLIB", "#19cf83", 9160626035)
+local Library = loadstring(
+    game:HttpGetAsync("https://raw.githubusercontent.com/focat69/gamesense/refs/heads/main/source?t=" .. tostring(tick()))
+)()
 
-main:CreateTab("Home")
+local Window = Library:New({
+    Name = "Example Tab",
+    Padding = 5
+})
 
-main:CreateLabel("Label", "Home")
+local TabOne = Window:CreateTab({
+    Name = "Tab 1"
+})
 
-main:CreateToggle("Toggle", "Home", function(togglestate)
-    print(togglestate)
- 
+local CallbackButton = TabOne:Button({
+    Name = "I will be renamed",
+    Callback = function()
+		print("I was clicked!")
+	end
+})
+
+
+
+-- Adjust the button's callback/function
+CallbackButton:SetCallback(function()
+	print("I was clicked yet again")
 end)
 
 
-main:CreateButton("Button", "Home", function()
-print('btn')
-end)
+-- Adjusts the button's name
+CallbackButton:SetText("Click me!") 
+
+-- Add a Label to TabOne
+local ExampleLabel = TabOne:Label({
+    Message = "Hello, I am a text!"
+})
 
 
-main:CreateDropdown("Dropdown", "Home", {"Oranges", "Apples", "Grapes", "Cherrys"}, function(arg)
-    print(arg)
- 
-end)
+-- Add a Slider to TabOne
+local ExampleSlider = TabOne:Slider({
+    Name = "Slider Value",
+    Min = 0,
+    Max = 100,
+    Default = 50,
+    Step = 5,
+    Callback = function(value)
+        print("Slider value changed to:", value)
+        ExampleLabel:SetText("Slider Value: " .. tostring(value)) -- Updates label with slider value
+    end
+})
+
+-- Set Slider value to 75
+ExampleSlider:SetValue(75)
 
 
-main:CreateSlider("Slider", "Home", 0, 100, function(sliderval)
-print(sliderval)
-end)
+-- Add a Toggle to TabOne
+local ExampleToggle = TabOne:Toggle({
+    Name = "Enable Feature",
+    State = false,
+    Callback = function(state)
+        print("Toggle state changed to:", state)
+        ExampleLabel:SetText("Feature Enabled: " .. tostring(state))
+    end
+})
+
+-- Set the toggle to 'true'
+ExampleToggle:SetValue(true)
+
+-- Add a Textbox to TabOne
+local ExampleTextbox = TabOne:Textbox({
+    Placeholder = "Enter your name...",
+    Callback = function(text)
+        ExampleLabel:SetText("Hello, " .. text .. "!")
+    end
+})
+
+-- Add a Notification when Script Executes
+Library:Notify({
+    Description = "Script loaded successfully!",
+    Duration = 3
+})
+
+
+-- Destroy the UI
+-- Window:Destroy() 
